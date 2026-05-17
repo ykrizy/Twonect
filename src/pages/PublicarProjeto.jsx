@@ -73,8 +73,8 @@ export default function PublicarProjeto() {
             plano: 'publicar_projeto',
             empresa_id: empresa.id,
             projeto_id: projeto.id,
-            success_url: `${window.location.origin}/synk-web/dashboard`,
-            cancel_url: `${window.location.origin}/synk-web/publicar-projeto?pagamento=cancelado`,
+            success_url: `${window.location.origin}/Twonect/dashboard`,
+            cancel_url: `${window.location.origin}/Twonect/publicar-projeto?pagamento=cancelado`,
           }),
         }
       )

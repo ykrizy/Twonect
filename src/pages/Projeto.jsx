@@ -251,8 +251,8 @@ export default function Projeto() {
             projeto_id: id,
             especialista_id: proposta.especialistas?.id,
             valor: orcamento,
-            success_url: `${window.location.origin}/synk-web/projeto/${id}?escrow=ok`,
-            cancel_url:  `${window.location.origin}/synk-web/projeto/${id}?escrow=cancelado`,
+            success_url: `${window.location.origin}/Twonect/projeto/${id}?escrow=ok`,
+            cancel_url:  `${window.location.origin}/Twonect/projeto/${id}?escrow=cancelado`,
           }),
         }
       )

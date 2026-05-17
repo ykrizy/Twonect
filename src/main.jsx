@@ -6,7 +6,7 @@ import './index.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <BrowserRouter basename="/synk-web">
+    <BrowserRouter basename="/Twonect">
       <App />
     </BrowserRouter>
   </React.StrictMode>
