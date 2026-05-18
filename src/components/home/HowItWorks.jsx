@@ -111,82 +111,83 @@ export default function HowItWorks() {
         {/* Steps — numbered flow, no card containers */}
         <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
           {STEPS[activeTab].map((step, i) => (
-            <Reveal key={`${activeTab}-${i}`} delay={i * 90}>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: '80px 1fr',
-                  gap: '0 32px',
-                  paddingTop: i === 0 ? '0' : '36px',
-                  paddingBottom: '36px',
-                  borderBottom: i < 2 ? '1px solid var(--border)' : 'none',
-                  position: 'relative',
-                }}
-              >
-                {/* Step number column */}
-                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingTop: '4px' }}>
-                  <span
-                    className="num-decor"
-                    style={{ fontSize: 'clamp(3rem, 7vw, 5rem)', color: 'rgba(124,92,246,0.08)' }}
-                  >
-                    {step.step}
-                  </span>
-                  {/* Vertical connector */}
-                  {i < 2 && (
-                    <div
-                      style={{
-                        width: '1px',
-                        flex: 1,
-                        background: 'linear-gradient(180deg, rgba(124,92,246,0.25) 0%, transparent 100%)',
-                        marginTop: '8px',
-                        marginLeft: '18px',
-                        minHeight: '20px',
-                      }}
-                    />
-                  )}
-                </div>
-
-                {/* Content column */}
-                <div style={{ paddingTop: '10px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-                    <div
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '10px',
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        background: 'rgba(124,92,246,0.1)',
-                        border: '1px solid rgba(124,92,246,0.2)',
-                        color: 'var(--brand-light)',
-                        flexShrink: 0,
-                      }}
-                    >
-                      {step.icon}
-                    </div>
-                    <h3
-                      className="font-heading"
-                      style={{ fontSize: '1.0625rem', color: 'var(--text)', margin: 0 }}
-                    >
-                      {step.title}
-                    </h3>
-                  </div>
-                  <p
+            <div
+              key={`${activeTab}-${i}`}
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '80px 1fr',
+                gap: '0 32px',
+                paddingTop: i === 0 ? '0' : '36px',
+                paddingBottom: '36px',
+                borderBottom: i < 2 ? '1px solid var(--border)' : 'none',
+                position: 'relative',
+                animation: 'stepFadeIn 0.35s cubic-bezier(0.16,1,0.3,1) both',
+                animationDelay: `${i * 60}ms`,
+              }}
+            >
+              {/* Step number column */}
+              <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start', paddingTop: '4px' }}>
+                <span
+                  className="num-decor"
+                  style={{ fontSize: 'clamp(3rem, 7vw, 5rem)', color: 'rgba(124,92,246,0.08)' }}
+                >
+                  {step.step}
+                </span>
+                {/* Vertical connector */}
+                {i < 2 && (
+                  <div
                     style={{
-                      fontSize: '14px',
-                      lineHeight: '1.65',
-                      color: 'var(--text-2)',
-                      letterSpacing: '-0.01em',
-                      maxWidth: '520px',
-                      margin: 0,
+                      width: '1px',
+                      flex: 1,
+                      background: 'linear-gradient(180deg, rgba(124,92,246,0.25) 0%, transparent 100%)',
+                      marginTop: '8px',
+                      marginLeft: '18px',
+                      minHeight: '20px',
+                    }}
+                  />
+                )}
+              </div>
+
+              {/* Content column */}
+              <div style={{ paddingTop: '10px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+                  <div
+                    style={{
+                      width: '36px',
+                      height: '36px',
+                      borderRadius: '10px',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: 'rgba(124,92,246,0.1)',
+                      border: '1px solid rgba(124,92,246,0.2)',
+                      color: 'var(--brand-light)',
+                      flexShrink: 0,
                     }}
                   >
-                    {step.desc}
-                  </p>
+                    {step.icon}
+                  </div>
+                  <h3
+                    className="font-heading"
+                    style={{ fontSize: '1.0625rem', color: 'var(--text)', margin: 0 }}
+                  >
+                    {step.title}
+                  </h3>
                 </div>
+                <p
+                  style={{
+                    fontSize: '14px',
+                    lineHeight: '1.65',
+                    color: 'var(--text-2)',
+                    letterSpacing: '-0.01em',
+                    maxWidth: '520px',
+                    margin: 0,
+                  }}
+                >
+                  {step.desc}
+                </p>
               </div>
-            </Reveal>
+            </div>
           ))}
         </div>
       </div>

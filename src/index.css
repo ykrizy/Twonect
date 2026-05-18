@@ -467,8 +467,15 @@ input[type=range]::-moz-range-thumb {
   color: var(--brand-light);
 }
 
+/* ─── Step fade-in (tab switch) ───────────────────────────────────────────── */
+@keyframes stepFadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: none; }
+}
+
 /* ─── Reduced motion ──────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   .reveal { opacity: 1; transform: none; transition: none; }
   .float-animation, .marquee-track, .orb-drift, .orb-drift-2 { animation: none; }
+  @keyframes stepFadeIn { from {} to {} }
 }
