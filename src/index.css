@@ -71,19 +71,57 @@ body {
   line-height: 1.15;
 }
 
-/* ─── Gradient Text ───────────────────────────────────────────────────────── */
+/* ─── Accent Text (solid — no gradient) ───────────────────────────────────── */
 .text-gradient {
-  background: linear-gradient(135deg, #C4B5FD 0%, #A78BFA 40%, #7C5CF6 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--brand-light);
 }
 
 .text-gradient-warm {
-  background: linear-gradient(135deg, var(--accent-light) 0%, var(--accent) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--accent-light);
+}
+
+/* ─── Section number ──────────────────────────────────────────────────────── */
+.num-decor {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: rgba(124,92,246,0.07);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ─── Credential tick ─────────────────────────────────────────────────────── */
+.cred-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 20px;
+  border-radius: var(--r);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  transition: border-color 0.2s;
+}
+.cred-item:hover { border-color: rgba(124,92,246,0.25); }
+
+/* ─── Interactive list row ────────────────────────────────────────────────── */
+.type-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-radius: var(--r);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.type-row:hover {
+  background: rgba(124,92,246,0.05);
+  border-color: rgba(124,92,246,0.15);
+}
+.type-row.active {
+  background: rgba(124,92,246,0.08);
+  border-color: rgba(124,92,246,0.25);
 }
 
 /* ─── Buttons ─────────────────────────────────────────────────────────────── */
