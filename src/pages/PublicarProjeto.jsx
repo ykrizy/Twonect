@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import useMeta from '@/hooks/useMeta'
 import Reveal from '@/components/ui/Reveal'
 import { useAuth } from '@/contexts/AuthContext'
@@ -19,8 +19,6 @@ export default function PublicarProjeto() {
 
   const { user } = useAuth()
   const navigate = useNavigate()
-  const [searchParams] = useSearchParams()
-  const cancelado = searchParams.get('pagamento') === 'cancelado'
 
   const [fields, setFields] = useState({
     titulo: '', descricao: '', tipo_automacao: 'RPA',
@@ -46,44 +44,20 @@ export default function PublicarProjeto() {
 
       if (!empresa) throw new Error('Perfil de empresa não encontrado. Certifica-te de que estás registado como empresa.')
 
-      // 2. Guardar projeto como rascunho — só fica ativo após pagamento
-      const { data: projeto, error: projetoErr } = await supabase
+      // 2. Inserir projeto diretamente como ativo — publicação gratuita
+      const { error: projetoErr } = await supabase
         .from('projetos')
         .insert({
           empresa_id: empresa.id,
           ...fields,
           orcamento: Number(fields.orcamento),
-          estado: 'pendente_pagamento',
+          estado: 'ativo',
         })
-        .select()
-        .single()
 
       if (projetoErr) throw projetoErr
 
-      // 3. Criar sessão de checkout no Stripe via Edge Function
-      const res = await fetch(
-        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/create-checkout-session`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
-          },
-          body: JSON.stringify({
-            plano: 'publicar_projeto',
-            empresa_id: empresa.id,
-            projeto_id: projeto.id,
-            success_url: `${window.location.origin}/Twonect/dashboard`,
-            cancel_url: `${window.location.origin}/Twonect/publicar-projeto?pagamento=cancelado`,
-          }),
-        }
-      )
-
-      const { url, error } = await res.json()
-      if (error) throw new Error(error)
-
-      // 4. Redirecionar para o Stripe
-      window.location.href = url
+      // 3. Redirecionar para o dashboard
+      navigate('/dashboard')
 
     } catch (err) {
       setErro(err.message || 'Erro ao publicar projeto. Tenta novamente.')
@@ -104,18 +78,10 @@ export default function PublicarProjeto() {
               Publicar Projeto
             </h1>
             <p style={{ color: 'var(--text-2)' }}>
-              Preenche os detalhes e paga €29 para publicar. Recebem propostas em 48h.
+              Preenche os detalhes e publica gratuitamente. Recebem propostas em 48h.
             </p>
           </div>
         </Reveal>
-
-        {cancelado && (
-          <Reveal>
-            <div className="mb-6 px-4 py-3 rounded-xl text-sm" style={{ color: '#f59e0b', background: 'rgba(245,158,11,0.08)', border: '1px solid rgba(245,158,11,0.2)' }}>
-              ⚠️ Pagamento cancelado. Podes tentar novamente quando quiseres.
-            </div>
-          </Reveal>
-        )}
 
         <Reveal delay={80}>
           <form onSubmit={handleSubmit} className="rounded-2xl p-8 space-y-5" style={{ background: 'var(--surface)', border: '1px solid var(--border)' }}>
@@ -164,21 +130,23 @@ export default function PublicarProjeto() {
               </p>
             )}
 
-            {/* Resumo do preço */}
-            <div className="rounded-xl p-4 flex items-center justify-between" style={{ background: 'var(--bg)', border: '1px solid var(--border)' }}>
+            {/* Info gratuito */}
+            <div className="rounded-xl p-4 flex items-center gap-3" style={{ background: 'rgba(16,185,129,0.06)', border: '1px solid rgba(16,185,129,0.15)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#34d399" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0 }}>
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" />
+              </svg>
               <div>
-                <p className="text-sm font-semibold" style={{ color: 'var(--text)' }}>Publicação de projeto</p>
-                <p className="text-xs" style={{ color: 'var(--text-3)' }}>Pagamento único · Propostas em 48h</p>
+                <p className="text-sm font-semibold" style={{ color: '#34d399' }}>Publicação gratuita</p>
+                <p className="text-xs" style={{ color: 'var(--text-3)' }}>Recebe propostas de especialistas verificados em 48h · Sem custos</p>
               </div>
-              <span className="text-2xl font-extrabold" style={{ color: 'var(--brand-light)' }}>€29</span>
             </div>
 
             <button type="submit" disabled={loading} className="btn-primary btn-primary-lg w-full justify-center" style={{ opacity: loading ? 0.7 : 1 }}>
-              {loading ? 'A redirecionar para pagamento…' : 'Pagar €29 e Publicar →'}
+              {loading ? 'A publicar projeto…' : 'Publicar Projeto Gratuitamente →'}
             </button>
 
             <p className="text-xs text-center" style={{ color: 'var(--text-3)' }}>
-              Pagamento seguro via Stripe · SSL encriptado
+              O teu projeto ficará visível a todos os especialistas verificados na plataforma.
             </p>
           </form>
         </Reveal>

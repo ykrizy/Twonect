@@ -4,6 +4,28 @@ import useMeta from '@/hooks/useMeta'
 import Reveal from '@/components/ui/Reveal'
 import { registarEmpresa, registarEspecialista } from '@/lib/api/auth'
 
+async function sendWelcomeEmail(email, nome, perfil) {
+  try {
+    await fetch(
+      `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/notify`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+        },
+        body: JSON.stringify({
+          type: 'welcome',
+          record: { email, nome, perfil },
+        }),
+      }
+    )
+  } catch (err) {
+    // Email failure is non-blocking — registo continua na mesma
+    console.warn('Welcome email failed:', err)
+  }
+}
+
 const AUTOMATION_TYPES = ['RPA', 'Integrações', 'IA / LLMs', 'Marketing Automation', 'BI & Data', 'Custom Dev', 'Outro']
 const SPECIALIST_SKILLS = ['RPA (UiPath, AA)', 'Make / Zapier / n8n', 'Python Automation', 'IA Aplicada', 'Power BI', 'HubSpot / Marketing', 'Cloud & DevOps', 'Outro']
 const COUNTRIES = ['Portugal', 'Espanha', 'Brasil', 'Outro']
@@ -67,6 +89,8 @@ function EmpresaForm({ onSuccess }) {
     setLoading(true)
     try {
       await registarEmpresa({ ...fields, tipos_automacao: automationTypes })
+      // Enviar email de boas-vindas (não bloqueia o registo em caso de falha)
+      await sendWelcomeEmail(fields.email, fields.nome_responsavel, 'empresa')
       onSuccess()
     } catch (err) {
       setErro(err.message || 'Erro ao criar conta. Tenta novamente.')
@@ -152,6 +176,8 @@ function EspecialistaForm({ onSuccess }) {
     setLoading(true)
     try {
       await registarEspecialista({ ...fields, skills })
+      // Enviar email de boas-vindas (não bloqueia o registo em caso de falha)
+      await sendWelcomeEmail(fields.email, fields.nome, 'especialista')
       onSuccess()
     } catch (err) {
       setErro(err.message || 'Erro ao submeter candidatura. Tenta novamente.')
