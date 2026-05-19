@@ -213,6 +213,82 @@ const PROJECTS = [
 
 const CATEGORIES_SPECIALISTS = ['Todos', 'Desenvolvimento', 'Design', 'Data & Analytics', 'DevOps', 'Marketing', 'Finanças']
 const CATEGORIES_PROJECTS = ['Todos', 'Desenvolvimento', 'Design', 'Data & Analytics', 'DevOps', 'Marketing', 'Finanças']
+const CATEGORIES_SERVICES = ['Todos', 'RPA', 'IA & LLMs', 'Integrações', 'BI & Data', 'Marketing Automation', 'No-Code', 'Custom Dev']
+
+const SERVICES_MOCK = [
+  {
+    id: 1,
+    titulo: 'Automação WhatsApp Business com IA',
+    categoria: 'IA & LLMs',
+    specialist: { name: 'Ana Costa', avatar: 'AC', avatarColor: '#6366f1' },
+    preco_base: 800,
+    entrega_dias: 10,
+    rating: 4.9,
+    reviews: 23,
+    ferramentas: ['ChatGPT', 'Make', 'WhatsApp API'],
+    imagem_url: null,
+  },
+  {
+    id: 2,
+    titulo: 'Integração CRM Salesforce + ERP SAP',
+    categoria: 'Integrações',
+    specialist: { name: 'Miguel Ferreira', avatar: 'MF', avatarColor: '#7c3aed' },
+    preco_base: 2500,
+    entrega_dias: 21,
+    rating: 4.8,
+    reviews: 11,
+    ferramentas: ['Salesforce', 'SAP', 'REST APIs'],
+    imagem_url: null,
+  },
+  {
+    id: 3,
+    titulo: 'Dashboard Power BI para E-commerce',
+    categoria: 'BI & Data',
+    specialist: { name: 'Sara Lopes', avatar: 'SL', avatarColor: '#0891b2' },
+    preco_base: 1200,
+    entrega_dias: 14,
+    rating: 5.0,
+    reviews: 18,
+    ferramentas: ['Power BI', 'SQL', 'dbt'],
+    imagem_url: null,
+  },
+  {
+    id: 4,
+    titulo: 'Agente IA para Apoio ao Cliente 24/7',
+    categoria: 'IA & LLMs',
+    specialist: { name: 'João Rodrigues', avatar: 'JR', avatarColor: '#059669' },
+    preco_base: 3000,
+    entrega_dias: 30,
+    rating: 4.7,
+    reviews: 9,
+    ferramentas: ['LangChain', 'OpenAI', 'n8n'],
+    imagem_url: null,
+  },
+  {
+    id: 5,
+    titulo: 'Automação de Marketing com HubSpot',
+    categoria: 'Marketing Automation',
+    specialist: { name: 'Catarina Silva', avatar: 'CS', avatarColor: '#d97706' },
+    preco_base: 900,
+    entrega_dias: 12,
+    rating: 4.9,
+    reviews: 34,
+    ferramentas: ['HubSpot', 'Zapier', 'Google Analytics'],
+    imagem_url: null,
+  },
+  {
+    id: 6,
+    titulo: 'RPA com UiPath para Processamento Documental',
+    categoria: 'RPA',
+    specialist: { name: 'Pedro Alves', avatar: 'PA', avatarColor: '#dc2626' },
+    preco_base: 4500,
+    entrega_dias: 45,
+    rating: 4.8,
+    reviews: 7,
+    ferramentas: ['UiPath', 'Python', 'OCR'],
+    imagem_url: null,
+  },
+]
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
 
@@ -397,6 +473,88 @@ function ProjectCard({ p, ctaTo = '/registar', onCandidatar = null, jaCandidatou
   )
 }
 
+function ServiceCard({ s }) {
+  return (
+    <div className="card flex flex-col overflow-hidden" style={{ cursor: 'pointer' }}>
+      {/* Cover */}
+      <div
+        className="flex items-center justify-center flex-shrink-0"
+        style={{
+          height: 130,
+          background: s.imagem_url
+            ? `url(${s.imagem_url}) center/cover`
+            : 'linear-gradient(135deg, rgba(124,92,246,0.15), rgba(167,139,250,0.07))',
+          borderBottom: '1px solid rgba(255,255,255,0.06)',
+        }}
+      >
+        {!s.imagem_url && <span style={{ fontSize: 36 }}>⚡</span>}
+      </div>
+
+      <div className="p-5 flex flex-col gap-3 flex-1">
+        {/* Category */}
+        <span className="badge badge-indigo self-start">{s.categoria}</span>
+
+        {/* Title */}
+        <h3 className="font-heading text-sm leading-snug" style={{ color: '#e2e8f0' }}>
+          {s.titulo}
+        </h3>
+
+        {/* Specialist */}
+        <div className="flex items-center gap-2">
+          <div
+            className="flex items-center justify-center rounded-full text-xs font-bold flex-shrink-0"
+            style={{
+              width: 28, height: 28,
+              background: `${s.specialist.avatarColor}22`,
+              color: s.specialist.avatarColor,
+              border: `1px solid ${s.specialist.avatarColor}44`,
+            }}
+          >
+            {s.specialist.avatar}
+          </div>
+          <span className="text-xs" style={{ color: '#64748b' }}>{s.specialist.name}</span>
+          {s.rating > 0 && (
+            <span className="ml-auto text-xs flex items-center gap-1" style={{ color: '#fbbf24' }}>
+              ★ {s.rating} <span style={{ color: '#475569' }}>({s.reviews})</span>
+            </span>
+          )}
+        </div>
+
+        {/* Tools */}
+        {s.ferramentas && s.ferramentas.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {s.ferramentas.slice(0, 3).map(f => (
+              <span key={f} className="badge badge-neutral" style={{ fontSize: '10px' }}>{f}</span>
+            ))}
+            {s.ferramentas.length > 3 && (
+              <span className="badge badge-neutral" style={{ fontSize: '10px' }}>+{s.ferramentas.length - 3}</span>
+            )}
+          </div>
+        )}
+
+        {/* Price + CTA */}
+        <div
+          className="flex items-center justify-between mt-auto pt-3"
+          style={{ borderTop: '1px solid rgba(255,255,255,0.06)' }}
+        >
+          <div>
+            <div className="text-xs" style={{ color: '#475569' }}>A partir de</div>
+            <div className="text-sm font-bold" style={{ color: 'var(--brand-light)' }}>
+              €{(s.preco_base || 0).toLocaleString('pt-PT')}
+            </div>
+          </div>
+          <div className="flex items-center gap-2 text-xs" style={{ color: '#64748b' }}>
+            <span>⏱ {s.entrega_dias} dias</span>
+          </div>
+          <Link to="/registar" className="btn-primary" style={{ fontSize: '12px', padding: '6px 14px' }}>
+            Ver Packages
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Marketplace() {
@@ -409,12 +567,18 @@ export default function Marketplace() {
     description: 'Encontra especialistas verificados ou publica o teu projecto. O marketplace da Twonect liga empresas e talentos independentes em Portugal.',
   })
 
-  const [activeTab, setActiveTab] = useState(() => searchParams.get('tab') === 'projetos' ? 'projectos' : 'especialistas')
+  const [activeTab, setActiveTab] = useState(() => {
+    const tab = searchParams.get('tab')
+    if (tab === 'projetos') return 'projectos'
+    if (tab === 'servicos') return 'servicos'
+    return 'especialistas'
+  })
   const [activeCategory, setActiveCategory] = useState('Todos')
   const [search, setSearch] = useState('')
   const [availableOnly, setAvailableOnly] = useState(false)
   const [specialists, setSpecialists] = useState(SPECIALISTS)
   const [projects, setProjects] = useState(PROJECTS)
+  const [services, setServices] = useState(SERVICES_MOCK)
   const [modalProjeto, setModalProjeto] = useState(null)
   const [candidaturaSucesso, setCandidaturaSucesso] = useState(false)
   const [projetosComCandidatura, setProjetosComCandidatura] = useState(new Set())
@@ -476,6 +640,37 @@ export default function Marketplace() {
       .catch(() => {})
   }, [])
 
+  // Carregar serviços reais do Supabase
+  useEffect(() => {
+    supabase
+      .from('servicos')
+      .select('*, especialistas(nome, foto_url)')
+      .eq('estado', 'publicado')
+      .order('created_at', { ascending: false })
+      .then(({ data }) => {
+        if (!data || data.length === 0) return
+        const mapped = data.map(s => ({
+          id: s.id,
+          titulo: s.titulo,
+          categoria: s.categoria,
+          specialist: {
+            name: s.especialistas?.nome || 'Especialista',
+            avatar: (s.especialistas?.nome || 'ES').split(' ').map(w => w[0]).slice(0, 2).join(''),
+            avatarColor: '#7c5cf6',
+            foto_url: s.especialistas?.foto_url || null,
+          },
+          preco_base: s.preco_base || 0,
+          entrega_dias: s.packages?.[0]?.entrega_dias || 0,
+          rating: 0,
+          reviews: 0,
+          ferramentas: s.ferramentas || [],
+          imagem_url: s.imagem_url || null,
+        }))
+        setServices(mapped)
+      })
+      .catch(() => {})
+  }, [])
+
   // Carregar candidaturas já feitas pelo especialista — re-executa sempre que navegar para esta página
   useEffect(() => {
     if (!user) return
@@ -495,7 +690,20 @@ export default function Marketplace() {
       .catch(() => {})
   }, [user, location.key])
 
-  const categories = activeTab === 'especialistas' ? CATEGORIES_SPECIALISTS : CATEGORIES_PROJECTS
+  const categories = activeTab === 'especialistas'
+    ? CATEGORIES_SPECIALISTS
+    : activeTab === 'servicos'
+    ? CATEGORIES_SERVICES
+    : CATEGORIES_PROJECTS
+
+  const filteredServices = services.filter(s => {
+    const matchesSearch = search === '' ||
+      s.titulo.toLowerCase().includes(search.toLowerCase()) ||
+      (s.specialist?.name || '').toLowerCase().includes(search.toLowerCase()) ||
+      (s.ferramentas || []).some(f => f.toLowerCase().includes(search.toLowerCase()))
+    const matchesCategory = activeCategory === 'Todos' || s.categoria === activeCategory
+    return matchesSearch && matchesCategory
+  })
 
   const filteredSpecialists = specialists.filter(s => {
     const matchesSearch = search === '' ||
@@ -564,6 +772,7 @@ export default function Marketplace() {
               {[
                 { key: 'especialistas', label: '👤 Especialistas' },
                 { key: 'projectos', label: '💼 Projectos' },
+                { key: 'servicos', label: '⚡ Serviços' },
               ].map(tab => (
                 <button
                   key={tab.key}
@@ -596,7 +805,11 @@ export default function Marketplace() {
               </svg>
               <input
                 type="text"
-                placeholder={activeTab === 'especialistas' ? 'Pesquisar especialistas ou skills…' : 'Pesquisar projectos ou empresas…'}
+                placeholder={
+                  activeTab === 'especialistas' ? 'Pesquisar especialistas ou skills…'
+                  : activeTab === 'servicos' ? 'Pesquisar serviços ou ferramentas…'
+                  : 'Pesquisar projectos ou empresas…'
+                }
                 value={search}
                 onChange={e => setSearch(e.target.value)}
                 style={{
@@ -614,6 +827,13 @@ export default function Marketplace() {
                 }}
               />
             </div>
+
+            {/* CTA for services tab */}
+            {activeTab === 'servicos' && perfil === 'especialista' && (
+              <Link to="/criar-servico" className="btn-primary flex-shrink-0" style={{ fontSize: '13px', padding: '8px 18px' }}>
+                + Criar Serviço
+              </Link>
+            )}
 
             {/* Available toggle (specialists only) */}
             {activeTab === 'especialistas' && (
@@ -675,6 +895,8 @@ export default function Marketplace() {
             <span className="text-sm" style={{ color: '#475569' }}>
               {activeTab === 'especialistas'
                 ? `${filteredSpecialists.length} especialista${filteredSpecialists.length !== 1 ? 's' : ''} encontrado${filteredSpecialists.length !== 1 ? 's' : ''}`
+                : activeTab === 'servicos'
+                ? `${filteredServices.length} serviço${filteredServices.length !== 1 ? 's' : ''} encontrado${filteredServices.length !== 1 ? 's' : ''}`
                 : `${filteredProjects.length} projecto${filteredProjects.length !== 1 ? 's' : ''} encontrado${filteredProjects.length !== 1 ? 's' : ''}`}
             </span>
             {activeTab === 'projectos' && (
@@ -685,6 +907,11 @@ export default function Marketplace() {
             {activeTab === 'especialistas' && (
               <Link to={especialistaTo} className="btn-primary" style={{ fontSize: '13px', padding: '8px 18px' }}>
                 + Criar Perfil
+              </Link>
+            )}
+            {activeTab === 'servicos' && (
+              <Link to={perfil === 'especialista' ? '/criar-servico' : '/registar'} className="btn-primary" style={{ fontSize: '13px', padding: '8px 18px' }}>
+                + Publicar Serviço
               </Link>
             )}
           </div>
@@ -701,6 +928,18 @@ export default function Marketplace() {
               </div>
             ) : (
               <EmptyState tab="especialistas" onReset={() => { setSearch(''); setActiveCategory('Todos'); setAvailableOnly(false) }} />
+            )
+          ) : activeTab === 'servicos' ? (
+            filteredServices.length > 0 ? (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {filteredServices.map((s, i) => (
+                  <Reveal key={s.id} delay={i * 60}>
+                    <ServiceCard s={s} />
+                  </Reveal>
+                ))}
+              </div>
+            ) : (
+              <EmptyState tab="servicos" onReset={() => { setSearch(''); setActiveCategory('Todos') }} />
             )
           ) : (
             filteredProjects.length > 0 ? (
@@ -880,12 +1119,14 @@ export default function Marketplace() {
 }
 
 function EmptyState({ tab, onReset }) {
+  const emoji = tab === 'especialistas' ? '🔍' : tab === 'servicos' ? '⚡' : '📋'
+  const noun = tab === 'especialistas' ? 'especialistas' : tab === 'servicos' ? 'serviços' : 'projectos'
   return (
     <div className="flex flex-col items-center justify-center py-24 gap-4">
-      <div style={{ fontSize: 48 }}>{tab === 'especialistas' ? '🔍' : '📋'}</div>
+      <div style={{ fontSize: 48 }}>{emoji}</div>
       <h3 className="text-lg font-bold" style={{ color: '#e2e8f0' }}>Sem resultados</h3>
       <p className="text-sm text-center" style={{ color: '#475569', maxWidth: 320 }}>
-        Não encontrámos {tab === 'especialistas' ? 'especialistas' : 'projectos'} com esses filtros.
+        Não encontrámos {noun} com esses filtros.
         Tenta ajustar a pesquisa.
       </p>
       <button className="btn-outline" onClick={onReset}>

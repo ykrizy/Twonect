@@ -15,6 +15,8 @@ import PublicarProjeto from '@/pages/PublicarProjeto'
 import Matching from '@/pages/Matching'
 import Calculadora from '@/pages/Calculadora'
 import Marketplace from '@/pages/Marketplace'
+import OnboardingEspecialista from '@/pages/OnboardingEspecialista'
+import CriarServico from '@/pages/CriarServico'
 import Projeto from '@/pages/Projeto'
 import Mensagens from '@/pages/Mensagens'
 import EspecialistaPublico from '@/pages/EspecialistaPublico'
@@ -37,6 +39,8 @@ export default function App() {
           <Route path="matching" element={<Matching />} />
           <Route path="calculadora" element={<Calculadora />} />
           <Route path="marketplace" element={<Marketplace />} />
+          <Route path="onboarding-especialista" element={<ProtectedRoute><OnboardingEspecialista /></ProtectedRoute>} />
+          <Route path="criar-servico" element={<ProtectedRoute><CriarServico /></ProtectedRoute>} />
           <Route path="dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
           <Route path="publicar-projeto" element={<ProtectedRoute><PublicarProjeto /></ProtectedRoute>} />
           <Route path="projeto/:id" element={<ProtectedRoute><Projeto /></ProtectedRoute>} />

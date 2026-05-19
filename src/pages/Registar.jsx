@@ -445,7 +445,7 @@ export default function Registar() {
 
                 {selected === 'empresa'
                   ? <EmpresaForm onSuccess={() => navigate('/publicar-projeto')} />
-                  : <EspecialistaForm onSuccess={() => navigate('/marketplace?tab=projetos')} />
+                  : <EspecialistaForm onSuccess={() => navigate('/onboarding-especialista')} />
                 }
               </div>
             </div>
