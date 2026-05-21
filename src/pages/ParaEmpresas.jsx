@@ -140,6 +140,7 @@ const STEPS_3 = [
 ]
 
 function ROICalculator() {
+  const { empresaTo } = useSmartCTA()
   const [hours, setHours] = useState(10)
   const [hourCost, setHourCost] = useState(25)
 
